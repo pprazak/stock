@@ -19,7 +19,6 @@ CREATE TABLE stock."order"
 (
     id             BIGINT             NOT NULL DEFAULT NEXTVAL('stock.sq_order') PRIMARY KEY,
     status         stock.order_status NOT NULL,
-    created_at     TIMESTAMP          NOT NULL,
     reserved_until TIMESTAMP,
     paid_at        TIMESTAMP
 );

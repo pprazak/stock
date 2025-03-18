@@ -19,19 +19,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
         logger.warning(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("Entity not found"));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("Entity not found", ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         logger.warning(ex.getMessage());
-        return ResponseEntity.badRequest().body(new ErrorResponse("Invalid request"));
+        return ResponseEntity.badRequest().body(new ErrorResponse("Invalid request", ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException ex) {
         logger.warning(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("Illegal state"));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("Illegal state", ex.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,30 +46,43 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         logger.severe(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Unexpected error"));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Unexpected error", ex.getMessage()));
     }
 
     public static class ErrorResponse {
 
-        private final String message;
+        private final String error;
         private final Map<String, String> details;
+        private final String description;
 
-        public ErrorResponse(String message) {
-            this.message = message;
+        public ErrorResponse(String error) {
+            this.error = error;
             this.details = null;
+            this.description = null;
         }
 
-        public ErrorResponse(String message, Map<String, String> details) {
-            this.message = message;
+        public ErrorResponse(String error, String description) {
+            this.error = error;
+            this.details = null;
+            this.description = description;
+        }
+
+        public ErrorResponse(String error, Map<String, String> details) {
+            this.error = error;
             this.details = details;
+            this.description = null;
         }
 
-        public String getMessage() {
-            return message;
+        public String getError() {
+            return error;
         }
 
         public Map<String, String> getDetails() {
             return details;
+        }
+
+        public String getDescription() {
+            return description;
         }
     }
 }

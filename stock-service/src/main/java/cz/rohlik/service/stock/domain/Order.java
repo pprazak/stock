@@ -10,15 +10,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static cz.rohlik.service.stock.domain.Order.SQ_GENERATOR;
 
 @Entity
-@Table(name = "order", schema = Schema.STOCK)
+//@Table(name = "order", schema = Schema.STOCK)
+@Table(name = "\"order\"", schema = Schema.STOCK)
 @SequenceGenerator(allocationSize = 1, name = SQ_GENERATOR, sequenceName = "sq_order", schema = Schema.STOCK)
 public class Order {
 
@@ -33,9 +34,6 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
 
     private LocalDateTime reservedUntil;
 
@@ -63,6 +61,13 @@ public class Order {
 
     public void setOrderItems(final List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public void addOrderItem(final OrderItem orderItem) {
+        if (this.orderItems == null) {
+            this.orderItems = new ArrayList<>();
+        }
+        this.orderItems.add(orderItem);
     }
 
     public LocalDateTime getReservedUntil() {

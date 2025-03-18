@@ -1,16 +1,17 @@
 package cz.rohlik.service.stock.service;
 
 import cz.rohlik.service.stock.domain.Order;
+import cz.rohlik.service.stock.dto.CreateOrderRequest;
 
 public interface OrderService {
 
     /**
-     * Creates an order.
+     * Creates a new order.
      *
      * @param order the order to create
      * @return the created order
      */
-    Order createOrder(Order order);
+    Order createOrder(CreateOrderRequest order);
 
     /**
      * Cancels an order.

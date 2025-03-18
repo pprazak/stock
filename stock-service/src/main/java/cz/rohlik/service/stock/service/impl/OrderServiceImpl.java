@@ -4,6 +4,9 @@ import cz.rohlik.service.stock.config.StockReservationConfig;
 import cz.rohlik.service.stock.domain.Order;
 import cz.rohlik.service.stock.domain.OrderItem;
 import cz.rohlik.service.stock.domain.OrderStatus;
+import cz.rohlik.service.stock.domain.Product;
+import cz.rohlik.service.stock.dto.CreateOrderRequest;
+import cz.rohlik.service.stock.dto.OrderItemRequest;
 import cz.rohlik.service.stock.repository.OrderRepository;
 import cz.rohlik.service.stock.repository.ProductRepository;
 import cz.rohlik.service.stock.service.OrderService;
@@ -32,17 +35,28 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order createOrder(Order order) {
-        for (OrderItem item : order.getOrderItems()) {
-            int updatedRows = productRepository.decreaseStock(item.getProduct().getId(), item.getQuantity());
+    public Order createOrder(CreateOrderRequest orderRequest) {
+        Order order = new Order();
+        for (OrderItemRequest itemRequest : orderRequest.orderItems()) {
+            Product product = productRepository.findById(itemRequest.productId())
+                    .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + itemRequest.productId()));
+
+            int updatedRows = productRepository.decreaseStock(product.getId(), itemRequest.quantity());
 
             if (updatedRows == 0) {
-                throw new IllegalStateException("Not enough stock for product: " + item.getProduct().getName());
+                throw new IllegalStateException("Not enough stock for product: " + product.getName());
             }
+
+            OrderItem item = new OrderItem();
+            item.setProduct(product);
+            item.setQuantity(itemRequest.quantity());
+            item.setOrder(order);
+            order.addOrderItem(item);
         }
 
         order.setStatus(OrderStatus.PENDING);
-        order.setReservedUntil(LocalDateTime.now(clock).plusMinutes(stockReservationConfig.getTimeLimitInMinutes()));
+        order.setReservedUntil(LocalDateTime.now(clock).plusMinutes(stockReservationConfig.getOrderExpirationInMinutes()));
+
         orderRepository.save(order);
         return order;
     }

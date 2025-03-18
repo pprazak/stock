@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "stock.reservation")
 public class StockReservationConfig {
 
-    private int timeLimitInMinutes;
+    private int orderExpirationInMinutes;
 
-    public int getTimeLimitInMinutes() {
-        return timeLimitInMinutes;
+    public int getOrderExpirationInMinutes() {
+        return orderExpirationInMinutes;
     }
 
-    public void setTimeLimitInMinutes(int timeLimitInMinutes) {
-        this.timeLimitInMinutes = timeLimitInMinutes;
+    public void setOrderExpirationInMinutes(int orderExpirationInMinutes) {
+        this.orderExpirationInMinutes = orderExpirationInMinutes;
     }
 }

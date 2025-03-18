@@ -8,8 +8,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 import static cz.rohlik.service.stock.domain.OrderItem.SQ_GENERATOR;
 
@@ -33,7 +33,7 @@ public class OrderItem {
     private Product product;
 
     @NotNull
-    @Positive
+    @Min(1)
     private Integer quantity;
 
     public Long getId() {
@@ -42,6 +42,14 @@ public class OrderItem {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(final Order order) {
+        this.order = order;
     }
 
     public Product getProduct() {

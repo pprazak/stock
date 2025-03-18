@@ -1,5 +1,6 @@
 package cz.rohlik.service.stock.endpoint;
 
+import cz.rohlik.service.stock.dto.CreateOrderRequest;
 import cz.rohlik.service.stock.dto.OrderDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface OrderResource {
 
     @PostMapping
-    ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDTO);
+    ResponseEntity<OrderDto> createOrder(@RequestBody CreateOrderRequest order);
 
     @PatchMapping("/{id}/cancel")
     ResponseEntity<OrderDto> cancelOrder(@PathVariable Long id);
