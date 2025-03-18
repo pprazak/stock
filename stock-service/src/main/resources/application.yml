@@ -1,0 +1,40 @@
+server:
+  port: 9110
+
+spring:
+  application:
+    name: stock
+  flyway:
+    schemas: stock
+
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: none
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+stock:
+  reservation:
+    time-limit-in-minutes: 30
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+  packages-to-scan:
+    - cz.rohlik.service.stock.controller
+
+logging:
+  level:
+    org.springdoc: DEBUG
+
+scheduler:
+  order-expiration-cron: "0 * * * * ?"
