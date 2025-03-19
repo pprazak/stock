@@ -45,8 +45,9 @@ public class Product {
         return id;
     }
 
-    public void setId(Long id) {
+    public Product setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Integer getVersion() {
@@ -61,23 +62,26 @@ public class Product {
         return name;
     }
 
-    public void setName(String name) {
+    public Product setName(String name) {
         this.name = name;
+        return this;
     }
 
     public Integer getQuantityInStock() {
         return quantityInStock;
     }
 
-    public void setQuantityInStock(Integer quantityInStock) {
+    public Product setQuantityInStock(Integer quantityInStock) {
         this.quantityInStock = quantityInStock;
+        return this;
     }
 
     public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public Product setPrice(BigDecimal price) {
         this.price = price;
+        return this;
     }
 }

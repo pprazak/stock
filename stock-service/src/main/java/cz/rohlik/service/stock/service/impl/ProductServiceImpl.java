@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Product updateProduct(Long productId, Product updatedProduct) {
         Product existingProduct = productRepository.findById(productId)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
 
         existingProduct.setName(updatedProduct.getName());
         existingProduct.setPrice(updatedProduct.getPrice());

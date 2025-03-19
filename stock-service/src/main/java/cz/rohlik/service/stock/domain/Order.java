@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,7 +19,6 @@ import java.util.List;
 import static cz.rohlik.service.stock.domain.Order.SQ_GENERATOR;
 
 @Entity
-//@Table(name = "order", schema = Schema.STOCK)
 @Table(name = "\"order\"", schema = Schema.STOCK)
 @SequenceGenerator(allocationSize = 1, name = SQ_GENERATOR, sequenceName = "sq_order", schema = Schema.STOCK)
 public class Order {
@@ -29,6 +29,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SQ_GENERATOR)
     private Long id;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
@@ -43,46 +44,53 @@ public class Order {
         return id;
     }
 
-    public void setId(final Long id) {
+    public Order setId(final Long id) {
         this.id = id;
+        return this;
     }
 
     public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(final OrderStatus status) {
+    public Order setStatus(final OrderStatus status) {
         this.status = status;
+        return this;
     }
 
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(final List<OrderItem> orderItems) {
+    public Order setOrderItems(final List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+        return this;
     }
 
-    public void addOrderItem(final OrderItem orderItem) {
+    public Order addOrderItem(final OrderItem orderItem) {
         if (this.orderItems == null) {
             this.orderItems = new ArrayList<>();
         }
         this.orderItems.add(orderItem);
+        orderItem.setOrder(this);
+        return this;
     }
 
     public LocalDateTime getReservedUntil() {
         return reservedUntil;
     }
 
-    public void setReservedUntil(final LocalDateTime reservedUntil) {
+    public Order setReservedUntil(final LocalDateTime reservedUntil) {
         this.reservedUntil = reservedUntil;
+        return this;
     }
 
     public LocalDateTime getPaidAt() {
         return paidAt;
     }
 
-    public void setPaidAt(final LocalDateTime paidAt) {
+    public Order setPaidAt(final LocalDateTime paidAt) {
         this.paidAt = paidAt;
+        return this;
     }
 }

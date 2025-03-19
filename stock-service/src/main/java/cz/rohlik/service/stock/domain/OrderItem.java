@@ -40,31 +40,35 @@ public class OrderItem {
         return id;
     }
 
-    public void setId(Long id) {
+    public OrderItem setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Order getOrder() {
         return order;
     }
 
-    public void setOrder(final Order order) {
+    public OrderItem setOrder(final Order order) {
         this.order = order;
+        return this;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public OrderItem setProduct(Product product) {
         this.product = product;
+        return this;
     }
 
     public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public OrderItem setQuantity(Integer quantity) {
         this.quantity = quantity;
+        return this;
     }
 }
