@@ -17,7 +17,7 @@ public interface OrderService {
      * Cancels an order.
      *
      * @param orderId the ID of the order to cancel
-     * @return the cancelled order
+     * @return the canceled order
      */
     Order cancelOrder(Long orderId);
 

@@ -12,19 +12,18 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: password
-  jpa:
-    hibernate:
-      ddl-auto: none
   h2:
     console:
       enabled: true
       path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: validate
   jackson:
     default-property-inclusion: non_null
 
 stock:
-  reservation:
-    order-expiration-in-minutes: 2
+  order-expiration-in-minutes: 2
 
 logging:
   level:

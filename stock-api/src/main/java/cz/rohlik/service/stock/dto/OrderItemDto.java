@@ -7,6 +7,7 @@ public record OrderItemDto(
         Long id,
         @NotNull
         ProductDto product,
+        @NotNull
         @Min(1)
         Integer quantity) {
 
